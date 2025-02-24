@@ -1,0 +1,100 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background: linear-gradient(to bottom, #00356e, #001b36);
+    color: #ffcc00;
+    text-align: center;
+    padding: 20px;
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it's behind other content */
+    background-image: url('/images/background\ image\ for\ login\ page\ copy.jpg'); /*  background */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start;  /* Align items to the top */
+    min-height: 100vh; /* Ensure container takes at least the full viewport height */
+    position: relative; /* Required for absolute positioning of button */
+}
+
+/* Style Back Button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+     z-index: 10; /* Ensure the button is above the main content */
+}
+
+.back-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Make Logo */
+.logo {
+    width: 150px; /* adjust size*/
+    height: 150px; /* adjust size*/
+    margin-bottom: 20px;
+}
+
+.logo img {
+   max-width: 100%; /* Ensure logo fits within its container */
+   max-height: 100%;
+    display: block;
+    object-fit: contain; /* Avoid distortion, maintain aspect ratio */
+}
+
+h1, h2, h3 {
+    font-family: 'Arial Black', sans-serif;
+    color: #ffcc00;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 1.8em;
+}
+
+h3 {
+    font-size: 1.4em;
+}
+
+.credits-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(3, 49, 255, 0.616);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 80%; /* Limiting max width of Credits boxes */
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}

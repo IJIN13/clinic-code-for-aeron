@@ -1,0 +1,368 @@
+        /* Existing CSS (Keep as is) + New CSS for month selector */
+        /* Existing CSS (Keep as is) - No changes needed in CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background: #e0e0e0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1f2d3d;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar .logo .school-name {
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed .school-name {
+    display: none;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+
+        .sidebar .logo {
+    text-align: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .logo img {
+    width: 100px;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo img {
+            width: 50px;
+        }
+
+        .sidebar .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar .menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 5px;
+            transition: padding 0.3s ease;
+        }
+
+        .sidebar .menu a i {
+            font-size: 18px;
+        }
+
+        .sidebar.collapsed .menu a {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sidebar.collapsed .menu a span {
+            display: none;
+        }
+
+        .sidebar .menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logout {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .sidebar .logout a {
+            color: white;
+            background: #fff;
+            color: #1f2d3d;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar.collapsed .logout a {
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .logout a span {
+            display: none;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #2d2d2d;
+            color: #ffffff;
+        }
+
+        .dark-mode .chart-container,
+        .dark-mode .admissions-card,
+        .dark-mode .medications-card {
+            background: #3a3a3a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-mode .card-title {
+            background: #4a5568;
+        }
+
+        /* Dark mode button styling */
+       .dark-mode-toggle {
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    margin-top: auto; /* Pushes it to the bottom of settings */
+}
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar.collapsed .dark-mode-toggle {
+            margin-left: 0;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .dark-mode-toggle span {
+            display: none;
+        }
+        .collapse-btn {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1f2d3d;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .collapse-btn {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .dashboard-container {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .profile-settings {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile-settings h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .profile-settings .section {
+            margin-bottom: 20px;
+        }
+
+        .profile-settings .section h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .profile-settings .section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .profile-settings .section select,
+        .profile-settings .section input[type="text"],
+        .profile-settings .section input[type="email"], /* Added email input style */
+        .profile-settings .section input[type="password"] { /* Added password input style */
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .profile-settings button {
+            background-color: #1f2d3d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .profile-settings button:hover {
+            background-color: #3d4a61;
+        }
+
+
+/* Credits Section */
+.sidebar .credits {
+    margin-top: auto; /* Push to the bottom */
+    margin-bottom: 15px; /* Add spacing above Log Out */
+}
+
+.sidebar .credits a {
+    margin-top: auto; /* Push to the bottom */
+    margin-bottom: 15px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    gap: 10px; /* Space between icon and text */
+}
+
+.sidebar .credits a:hover {
+    background: rgba(255, 255, 255, 0.1); /* Hover effect */
+}
+
+/* Collapsed State */
+.sidebar.collapsed .credits {
+    margin-bottom: 20px; /* Adjust spacing above Log Out */
+}
+
+.sidebar.collapsed .credits a {
+    justify-content: center; /* Center the icon when collapsed */
+    padding: 10px; /* Adjust padding for collapsed state */
+}
+
+.sidebar.collapsed .credits a span {
+    display: none; /* Hide the text when collapsed */
+}
+
+.sidebar.collapsed .credits a i {
+    font-size: 18px; /* Adjust icon size when collapsed */
+    margin: 0; /* Remove any margin for proper centering */
+}
+
+/* New CSS for month selector */
+.month-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.month-selector button {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #555;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.month-selector button:hover {
+    background-color: #f0f0f0;
+}
+
+.month-selector span#selectedMonths {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    width: 30px;
+    text-align: center;
+    display: inline-block; /* To respect width and text-align */
+}
+
+/* Styles for Dark Mode Compatibility */
+body.dark-mode .profile-settings {
+    background-color: #444; /* Darker background for settings container in dark mode */
+    color: #fff; /* White text color in dark mode */
+}
+
+body.dark-mode .profile-settings h2,
+body.dark-mode .profile-settings .section h3,
+body.dark-mode .profile-settings .section label,
+body.dark-mode .month-selector span#selectedMonths,
+body.dark-mode .profile-settings .section p { /* Applying white color to relevant text elements */
+    color: #fff;
+}
+
+
+body.dark-mode .profile-settings .section select,
+body.dark-mode .profile-settings .section input[type="text"],
+body.dark-mode .profile-settings .section input[type="email"],
+body.dark-mode .profile-settings .section input[type="password"] {
+    background-color: #666; /* Darker input background in dark mode */
+    color: #fff; /* White input text color in dark mode */
+    border-color: #777; /* Slightly lighter border for inputs in dark mode */
+}
+
+body.dark-mode .month-selector button {
+    color: #fff; /* White month selector arrows in dark mode */
+}
+
+body.dark-mode .month-selector button:hover {
+    background-color: #555; /* Darker hover for month selector buttons in dark mode */
+}
+
+/* Dark mode style for the warning paragraph */
+body.dark-mode .profile-settings .section p {
+    color: #fff; /* Make warning paragraph text white in dark mode */
+}
+
+

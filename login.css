@@ -1,0 +1,160 @@
+@font-face {
+    font-family: 'Spotify';
+    src: url('https://fonts.cdnfonts.com/s/15103/Spotify-Regular.woff') format('woff');
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    transition: background-color 0.3s, color 0.3s;
+}
+.dark-mode {
+    background-color: #333;
+    color: #f4f4f4;
+}
+.login-container {
+    display: flex;
+    width: 1100px;
+    height: 600px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+.dark-mode .login-container {
+    background: #444;
+}
+.login-container .left {
+    width: 50%;
+    position: relative;
+    background: linear-gradient(120deg, rgba(0, 0, 139, 0.7), rgba(30, 144, 255, 0.6));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    overflow: hidden;
+}
+/* Background image for the left container */
+.login-container .left .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the container */
+    z-index: 1;
+    opacity: 0.4; /* Keeps the gradient dominant */
+}
+.login-container .left img.logo {
+    position: relative;
+    z-index: 2; /* Ensures it appears above the background */
+    top: 20px;
+    width: 200px; /* Larger logo size */
+    height: auto;
+    border-radius: 8px;
+}
+.login-container .left h1 {
+    font-family: 'Spotify', Arial, sans-serif;
+    text-align: center;
+    font-size: 22px;
+    line-height: 1.5;
+    margin-top: 50px; /* Reduced margin to move the text higher */
+    z-index: 2; /* Keeps the text above the background */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Adds clarity to text */
+}
+.login-container .right {
+    width: 50%;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+.login-container .right h2 {
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: bold;
+}
+.login-container .right form {
+    display: flex;
+    flex-direction: column;
+}
+.login-container .right form input[type="text"],
+.login-container .right form input[type="password"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.login-container .right form input[type="checkbox"] {
+    margin-right: 8px;
+}
+.login-container .right form label {
+    margin-bottom: 20px; /* Added margin for spacing below "Remember Me" */
+}
+.login-container .right form .continue-btn {
+    background-color: #007bff; /* Match the blue color from the image */
+    color: white;
+    padding: 15px 30px; /* Adjust padding to match button size */
+    border: none;
+    border-radius: 25px; /* More rounded corners like the image */
+    font-size: 18px; /* Adjust font size to match */
+    font-weight: bold; /* Make the font weight bold */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.login-container .right form .continue-btn:hover {
+    background-color: #0056b3;
+}
+.login-container .right .signup {
+    margin-top: 20px;
+    font-size: 15px;
+}
+.login-container .right .signup a {
+    color: #007bff;
+    text-decoration: none;
+}
+.login-container .right .signup a:hover {
+    text-decoration: underline;
+}
+/* Dark mode button at the top-right of "Login" */
+.dark-mode-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3px;
+    transition: background-color 0.3s, justify-content 0.3s;
+}
+.dark-mode-toggle:before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+.dark-mode .dark-mode-toggle {
+    background: #555;
+    justify-content: flex-end;
+}
+.dark-mode .dark-mode-toggle:before {
+    transform: translateX(0);
+}

@@ -1,0 +1,95 @@
+
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 0, 255, 0.3), rgba(0, 0, 255, 0.5)), url('/images/background\ image\ for\ login\ page\ copy.jpg ');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+  }
+  .container {
+    background-color: rgba(0, 123, 255, 0.603);
+    padding: 50px; /* Adjusted padding to better fit content */
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 0;
+    width: 80%; /* Adjust container width if needed */
+    max-width: 600px; /* Maximum width for responsiveness */
+  }
+  .logo-container {
+    margin-bottom: 30px;
+  }
+  .logo-img {
+    max-width: 150px; /* Adjusted logo size */
+    height: auto;
+  }
+  .form-section {
+    margin-bottom: 20px;
+    text-align: left; /* Align labels to the left */
+  }
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: white; /* Label text color */
+  }
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid black; /* Black border as in PNG */
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* To include padding in width calculation */
+    margin-bottom: 10px; /* Spacing between inputs */
+    color: black; /* Input text color */
+  }
+  .time-in-section {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center time inputs */
+    gap: 10px; /* Spacing between time elements */
+  }
+  .time-label {
+    color: white; /* Time label color */
+    font-weight: bold;
+  }
+  .time-select {
+    padding: 10px;
+    border: 2px solid black; /* Black border for selects */
+    border-radius: 5px;
+    font-size: 16px;
+    color: black; /* Select text color */
+  }
+  .time-select option {
+    color: black; /* Option text color inside select */
+  }
+
+  /* Adjustments to match PNG more closely */
+  .container {
+    padding-top: 30px; /* Less top padding */
+    padding-bottom: 30px; /* Less bottom padding */
+  }
+  .form-label {
+    font-size: 1.1em; /* Slightly larger labels */
+  }
+  .form-input, .time-select {
+    padding: 12px; /* Slightly larger input/select padding */
+  }
+  .select-portal-text { /* Re-add if you want to keep 'SELECT PORTAL' text above form, otherwise remove */
+    font-size: 24px;
+    margin-bottom: 20px;
+    display: none; /* Hide "SELECT PORTAL" text */
+  }

@@ -1,0 +1,61 @@
+
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex; /* Keep body as flex to center the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure full viewport height */
+  }
+  .background-container {
+    position: fixed; /* Fixed position to cover the whole viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Apply linear gradient overlay on top of the background image */
+    background-image: linear-gradient(rgba(67, 67, 228, 0.3), rgba(0, 0, 255, 0.5)), url('/images/background\ image\ for\ login\ page\ copy.jpg'); /* Blue gradient overlay */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    z-index: -1; /* Place it behind the content */
+  }
+  .container {
+    background-color: rgba(0, 123, 255, 0.432); /* Semi-transparent blue overlay */
+    padding: 80px; /* Increased padding to make container larger */
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Optional: shadow for depth */
+    z-index: 0; /* Ensure it's on top of background */
+  }
+  .logo-container {
+    margin-bottom: 30px;
+  }
+  .logo-img {
+    max-width: 200px; /* Adjust size as needed */
+    height: auto;
+  }
+  .select-portal-text {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .button-link {
+    display: block; /* Make each button a block element */
+    margin-bottom: 15px; /* Spacing between buttons */
+    text-decoration: none; /* Remove underline from link */
+  }
+  .portal-button {
+    background-color: #007bff; /* Darker blue button color */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 250px; /* Set button width */
+    display: block; /* Ensure button takes full width of parent */
+    margin: 0 auto; /* Center the button */
+  }
+  .portal-button:hover {
+    background-color: #00448f; /* Even darker blue on hover */
+  }

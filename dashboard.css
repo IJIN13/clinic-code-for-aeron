@@ -1,0 +1,356 @@
+        /* ... your existing CSS ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background: #e0e0e0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1f2d3d;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            position: relative;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar .logo .school-name {
+    border-bottom: 2px solid white; /* White line at the bottom */
+    padding-bottom: 10px; /* Spacing below the text */
+    margin-bottom: 10px; /* Margin adjustment */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+        .sidebar.collapsed .school-name {
+            display: none; /* Hide the text when collapsed */
+            border-bottom: none; /* Remove the white line */
+            padding-bottom: 0; /* Remove padding */
+            margin-bottom: 0; /* Remove margin */
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logo img {
+            width: 100px;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo img {
+            width: 50px;
+        }
+
+        .sidebar .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar .menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 5px;
+            transition: padding 0.3s ease;
+        }
+
+        .sidebar .menu a i {
+            font-size: 18px;
+        }
+
+        .sidebar.collapsed .menu a {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sidebar.collapsed .menu a span {
+            display: none;
+        }
+
+        .sidebar .menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logout {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .sidebar .logout a {
+            color: white;
+            background: #fff;
+            color: #1f2d3d;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar.collapsed .logout a {
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .logout a span {
+            display: none;
+        }
+
+        .collapse-btn {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1f2d3d;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .collapse-btn {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .dashboard-container {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-container h2 {
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .dashboard-container > *:not(h2) {
+            margin-top: 10px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 400px; /* Increased chart height */
+            width: 100%;
+            position: relative;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .admissions-card {
+            flex: 2;
+            background: white;
+            padding: 20px; /* Increased padding for admissions card */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 250px; /* Increased height for admissions card */
+        }
+
+        .medications-card {
+            flex: 1;
+            background: white;
+            padding: 20px; /* Increased padding for medications card */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 250px; /* Increased height for medications card */
+            overflow-y: auto; /* Enable vertical scrolling if medications list is long */
+        }
+
+        .card-title {
+            background: #3d4a61;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+
+        #dashboardChart {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #2d2d2d;
+            color: #ffffff;
+        }
+
+        .dark-mode .chart-container,
+        .dark-mode .admissions-card,
+        .dark-mode .medications-card {
+            background: #3a3a3a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-mode .card-title {
+            background: #4a5568;
+        }
+
+       /* Dark mode button styling (Keep as is) - NO CHANGES IN CSS */
+       .dark-mode-toggle {
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-top: auto;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar.collapsed .dark-mode-toggle {
+            margin-left: 0;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .dark-mode-toggle span {
+            display: none;
+        }
+        /* Credits Section */
+.sidebar .credits {
+    margin-top: auto; /* Push to the bottom */
+    margin-bottom: 15px; /* Add spacing above Log Out */
+}
+
+.sidebar .credits a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    gap: 10px; /* Space between icon and text */
+}
+
+.sidebar .credits a:hover {
+    background: rgba(255, 255, 255, 0.1); /* Hover effect */
+}
+
+/* Collapsed State */
+.sidebar.collapsed .credits {
+    margin-bottom: 20px; /* Adjust spacing above Log Out */
+}
+
+.sidebar.collapsed .credits a {
+    justify-content: center; /* Center the icon when collapsed */
+    padding: 10px; /* Adjust padding for collapsed state */
+}
+
+.sidebar.collapsed .credits a span {
+    display: none; /* Hide the text when collapsed */
+}
+
+.sidebar.collapsed .credits a i {
+    font-size: 18px; /* Adjust icon size when collapsed */
+    margin: 0; /* Remove any margin for proper centering */
+}
+
+         /* Digital Stock Display Styles (ADD THIS TO YOUR CSS) */
+        #medicationStockDisplay {
+            display: flex; /* For horizontal layout of medication stocks */
+            flex-direction: column; /* Stack medication stocks vertically */
+            gap: 15px;       /* Spacing between medication stock displays - Increased gap */
+            padding: 15px; /* Increased padding */
+            overflow-x: auto; /* Enable horizontal scroll if too many medications */
+        }
+
+        .medication-stock-item {
+            display: flex; /* For horizontal layout of digit boxes and medication name */
+            align-items: center; /* Vertically align digit boxes and name */
+            gap: 20px;        /* Spacing between digits/boxes and medication name - Increased gap */
+            margin-bottom: 8px; /* Increased margin */
+        }
+
+        .stock-digits {
+            display: flex; /* Horizontal layout for digit boxes */
+            gap: 8px;       /* Spacing between digit boxes - Increased gap */
+        }
+
+        .digit-box {
+            width: 30px;   /* Increased width */
+            height: 45px;  /* Increased height */
+            border: 2px solid #ccc; /* Slightly thicker border */
+            border-radius: 6px; /* Slightly more rounded corners */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em; /* Increased font size */
+            font-weight: bold;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* New styles for Admission Count Digits */
+        .admission-count-display {
+            display: flex; /* For digit boxes layout */
+            gap: 15px;     /* Spacing between digit boxes - Increased gap */
+            align-items: center; /* Align items vertically in card */
+            margin-bottom: 15px; /* Increased margin between weekly and semester */
+            margin-top: 15px; /* Added margin-top to create space between title and weekly */
+        }
+
+        .admission-count-digits {
+            display: flex; /* Horizontal layout for digit boxes */
+            gap: 12px;       /* Spacing between digit boxes - Increased gap */ /* Increased gap here */
+        }
+
+        .admission-digit-box { /* Reusing digit box style, can adjust if needed */
+            width: 35px;     /* Increased width */ /* Increased width here */
+            height: 50px;    /* Increased height */ /* Increased height here */
+            border: 2px solid #ccc; /* Slightly thicker border */
+            border-radius: 6px; /* Slightly more rounded corners */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.0em; /* Increased font size */ /* Increased font size here */
+            font-weight: bold;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .admission-label {
+            font-weight: bold;
+            margin-right: 20px; /* Spacing between label and digits - Increased margin */ /* Increased margin here */
+            font-size: 1.3em; /* Slightly larger label font */ /* Increased font size here */
+        }
+    

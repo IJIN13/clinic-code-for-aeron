@@ -1,0 +1,143 @@
+@font-face {
+    font-family: 'Spotify';
+    src: url('https://fonts.cdnfonts.com/s/15103/Spotify-Regular.woff') format('woff');
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    transition: background-color 0.3s, color 0.3s;
+}
+.dark-mode {
+    background-color: #333;
+    color: #f4f4f4;
+}
+.confirmation-container {
+    display: flex;
+    width: 1100px;
+    height: 600px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+.dark-mode .confirmation-container {
+    background: #444;
+}
+.confirmation-container .left {
+    width: 50%;
+    position: relative;
+    background: linear-gradient(120deg, rgba(0, 0, 139, 0.7), rgba(30, 144, 255, 0.6));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    overflow: hidden;
+}
+.confirmation-container .left .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.4;
+}
+.confirmation-container .left img.logo {
+    position: relative;
+    z-index: 2;
+    top: 20px;
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+}
+.confirmation-container .left h1 {
+    font-family: 'Spotify', Arial, sans-serif;
+    text-align: center;
+    font-size: 22px;
+    line-height: 1.5;
+    margin-top: 50px;
+    z-index: 2;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+.confirmation-container .right {
+    width: 50%;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+.confirmation-container .right h2 {
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: bold;
+}
+.confirmation-container .right form {
+    display: flex;
+    flex-direction: column;
+}
+.confirmation-container .right form input[type="text"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.confirmation-container .right form .continue-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.confirmation-container .right form .continue-btn:hover {
+    background-color: #0056b3;
+}
+.confirmation-container .right .info {
+    margin-top: 20px;
+    font-size: 15px;
+}
+.dark-mode-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3px;
+    transition: background-color 0.3s, justify-content 0.3s;
+}
+.dark-mode-toggle:before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+.dark-mode .dark-mode-toggle {
+    background: #555;
+    justify-content: flex-end;
+}
+.dark-mode .dark-mode-toggle:before {
+    transform: translateX(0);
+}
