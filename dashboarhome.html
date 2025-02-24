@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+   <link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2 class="school-name">SHS MABIGA</h2>
+            <img src="images/Fatima Logo.png" alt="Logo">
+        </div>
+        <div class="menu">
+            <a href="dashboarhome.html"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="RECORDS.HTML"><i class="fas fa-folder"></i> <span>Records</span></a>
+            <a href="callendar.html"><i class="fas fa-calendar"></i> <span>Calendar</span></a>
+            <a href="Medicationpage.html"><i class="fas fa-pills"></i> <span>Medications</span></a>
+            <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a>
+
+            <!-- Dark Mode Button -->
+            <div class="dark-mode-toggle" id="dark-mode-toggle">
+                <i class="fas fa-moon" id="darkModeIcon"></i>  <!-- ADDED ID HERE -->
+                <span>Dark Mode</span>
+            </div>
+            <div class="credits">
+                <a href="creditspage.html"><i class="fas fa-copyright"></i> <span>Credits</span></a>
+            </div>
+        </div>
+        <div class="logout">
+          <button id="logout" style="border: none; background-color: transparent;
+          cursor: pointer;
+          font-size: 2rem;
+          color: white;"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></button>
+        </div>
+        <div class="collapse-btn" id="collapse-btn"><i class="fas fa-bars"></i></div>
+    </div>
+    <div class="dashboard-container">
+        <h2>DASHBOARD</h2>
+        <div class="chart-container" id="chartContainer">
+            <canvas id="dashboardChart"></canvas>
+        </div>
+        <div class="cards-container">
+            <div class="admissions-card">
+                <div class="card-title">ADMISSIONS</div>
+                <div class="admission-count-display">
+                    <span class="admission-label">Weekly:</span>
+                    <div id="weeklyAdmissionCountDisplay" class="admission-count-digits">
+                        <!-- Weekly admission count digits will be placed here -->
+                        <p>Loading...</p>
+                    </div>
+                </div>
+                <div class="admission-count-display">
+                    <span class="admission-label">Semester:</span>
+                    <div id="semesterAdmissionCountDisplay" class="admission-count-digits">
+                        <!-- Semester admission count digits will be placed here -->
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="medications-card" id="medicationsCard"> <!-- Added ID to medications card -->
+                <div class="card-title">MEDICATIONS STOCK</div>
+                <div id="medicationStockDisplay"> <!-- NEW CONTAINER FOR DIGITAL STOCK DISPLAY -->
+                    <!-- Stock for each medication will be displayed here as digital digits -->
+                    <p>Loading Medication Stock...</p>
+                </div>
+                <div id="medicationList"> <!-- Container for medication list (optional - keep for list view alongside digits) -->
+                    <!-- Medication list items can be added here if you want a list view as well -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const collapseBtn = document.getElementById("collapse-btn");
+
+        collapseBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+        });
+
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        let currentYear = new Date().getFullYear();
+        const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const labelsWithYear = monthLabels.map(month => `${month} ${currentYear}`);
+
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labelsWithYear,
+                datasets: [{
+                    label: 'Admitted Students',
+                    data: [], // Data will be populated dynamically
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 500,
+                        ticks: {
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to save chart container as PNG
+        function saveGraphContainerAsPNG() {
+            const chartContainer = document.getElementById('chartContainer'); // Ensure this is the right container ID
+            html2canvas(chartContainer).then(canvas => {
+                const dataURL = canvas.toDataURL('image/png');
+                downloadDataURL(dataURL, `admission_chart_${currentYear}.png`);
+            });
+        }
+
+        // Utility function to download data URL as file
+        function downloadDataURL(dataURL, filename) {
+            const a = document.createElement('a');
+            a.href = dataURL;
+            a.download = filename;
+            document.body.appendChild(a); // Required for Firefox
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Function to check if it's year end and save graph
+        function checkAndSaveGraphAtYearEnd() {
+            const now = new Date();
+            if (now.getMonth() === 11) { // Month is December (0-indexed)
+                saveGraphContainerAsPNG();
+                // Reset chart data for the new year
+                myChart.data.datasets[0].data = [];
+                myChart.update();
+                currentYear++;
+                updateChartYear(); // Update chart year labels
+                alert(`Chart for ${currentYear-1} saved and data reset for ${currentYear}!`); // Optional alert
+            }
+        }
+
+        // Function to update chart year in labels
+        function updateChartYear() {
+            const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const labelsWithYear = monthLabels.map(month => `${month} ${currentYear}`);
+            myChart.data.labels = labelsWithYear;
+            myChart.update();
+        }
+
+
+        checkAndSaveGraphAtYearEnd(); // Call on page load to check and potentially save at year end
+        updateChartYear(); // Initialize chart year labels
+
+
+        // Dark Mode Toggle (Fixed JavaScript)
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+        const darkModeIcon = document.getElementById('darkModeIcon'); // ADDED to select the icon
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            darkModeIcon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon'; // UPDATED to use darkModeIcon
+            darkModeToggle.querySelector('span').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+        });
+
+
+        // --- START OF ADDED CODE for displaying medication data and admission counts and chart---
+        const DAILY_ADMISSION_COUNT_PREFIX = 'dailyAdmissionCount-'; // MUST MATCH IN calendar.html
+
+        function loadMedicationData() {
+            const storedData = localStorage.getItem('medicationTableData'); // Corrected localStorage key
+            if (storedData) {
+                return JSON.parse(storedData);
+            }
+            return [];
+        }
+
+        function displayMedicationStock() {
+            const medications = loadMedicationData();
+            const medicationStockDisplayDiv = document.getElementById('medicationStockDisplay'); // Get the *new* container
+            const medicationsCard = document.getElementById('medicationsCard');
+
+
+            medicationStockDisplayDiv.innerHTML = '<p>Loading Medication Stock...</p>'; // Initial loading message
+
+            if (medications.length > 0) {
+                medicationStockDisplayDiv.innerHTML = ''; // Clear loading message after data is loaded
+                medicationsCard.style.display = 'block';
+
+                medications.forEach(medication => {
+                    if (medication.stock) { // Only display if stock value is available
+                        const stockValue = parseInt(medication.stock, 10); // Ensure stock is a number
+                        const stockStr = String(stockValue).padStart(3, '0'); // Pad with zeros to 3 digits
+
+                        const medicationItemDiv = document.createElement('div'); // Container for each medication's display
+                        medicationItemDiv.className = 'medication-stock-item'; // Apply class for styling
+
+                        const stockDigitsDiv = document.createElement('div'); // Container for digit boxes
+                        stockDigitsDiv.className = 'stock-digits';
+
+                        for (let i = 0; i < 3; i++) { // Create 3 digit boxes
+                            const digitBox = document.createElement('div');
+                            digitBox.className = 'digit-box';
+                            digitBox.textContent = stockStr[i]; // Set digit from stock string
+                            stockDigitsDiv.appendChild(digitBox);
+                        }
+
+                        const medicationNameSpan = document.createElement('span'); // For medication name next to digits
+                        medicationNameSpan.textContent = medication.medication;
+
+
+                        medicationItemDiv.appendChild(stockDigitsDiv);      // Add digits to item container
+                        medicationItemDiv.appendChild(medicationNameSpan); // Add name to item container
+                        medicationStockDisplayDiv.appendChild(medicationItemDiv); // Add item to main display
+                    }
+                });
+            } else {
+                medicationsCard.style.display = 'none';
+                medicationStockDisplayDiv.innerHTML = '<p>No Medication Stock Data Available.</p>'; // Message when no data
+            }
+        }
+
+        function calculateWeeklyAdmissionCount() {
+            let weeklyCount = 0;
+            const today = new Date();
+            const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+            const currentDay = today.getDate();
+
+            // Calculate Monday's date of the current week
+            const mondayDate = new Date(today);
+            mondayDate.setDate(currentDay - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)); // Adjust to Monday
+
+            for (let i = 0; i < 5; i++) { // Iterate for Monday to Friday (5 days)
+                const currentDate = new Date(mondayDate);
+                currentDate.setDate(mondayDate.getDate() + i); // Get date for each day of the week
+                const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+                const dailyCount = localStorage.getItem(DAILY_ADMISSION_COUNT_PREFIX + dateKey);
+                if (dailyCount) {
+                    weeklyCount += parseInt(dailyCount, 10);
+                }
+            }
+            return weeklyCount;
+        }
+
+        function displayAdmissionCounts() {
+            const weeklyAdmissionCount = calculateWeeklyAdmissionCount();
+            const semesterAdmissionCount = calculateSemesterAdmissionCount();
+
+            displayCountInDigitBoxes(weeklyAdmissionCount, 'weeklyAdmissionCountDisplay', 'admission-digit-box');
+            displayCountInDigitBoxes(semesterAdmissionCount, 'semesterAdmissionCountDisplay', 'admission-digit-box');
+        }
+
+        function displayCountInDigitBoxes(count, displayElementId, digitBoxClass) {
+            const displayElement = document.getElementById(displayElementId);
+            displayElement.innerHTML = ''; // Clear any existing content
+            const countStr = String(count).padStart(4, '0'); // Pad with zeros to 4 digits (adjust as needed)
+
+            const countDigitsDiv = document.createElement('div');
+            countDigitsDiv.className = 'admission-count-digits'; // or reuse 'stock-digits' if styling is the same
+
+            for (let i = 0; i < countStr.length; i++) {
+                const digitBox = document.createElement('div');
+                digitBox.className = digitBoxClass; // Use the passed class
+                digitBox.textContent = countStr[i];
+                countDigitsDiv.appendChild(digitBox);
+            }
+            displayElement.appendChild(countDigitsDiv);
+        }
+
+        function calculateMonthlyAdmissionCounts() {
+            const monthlyCounts = new Array(12).fill(0); // Initialize an array for 12 months with 0s
+            const currentYear = new Date().getFullYear();
+
+            for (let month = 0; month < 12; month++) { // Loop through each month (0 to 11)
+                const daysInMonth = new Date(currentYear, month + 1, 0).getDate(); // Get days in the month
+                for (let day = 1; day <= daysInMonth; day++) { // Loop through each day of the month
+                    const dateKey = `${currentYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const dailyCount = localStorage.getItem(DAILY_ADMISSION_COUNT_PREFIX + dateKey);
+                    if (dailyCount) {
+                        monthlyCounts[month] += parseInt(dailyCount, 10); // Add daily count to the respective month
+                    }
+                }
+            }
+            return monthlyCounts;
+        }
+
+        function updateAdmissionChart() {
+            const monthlyAdmissionData = calculateMonthlyAdmissionCounts();
+            myChart.data.datasets[0].data = monthlyAdmissionData; // Update chart data
+            myChart.update(); // Refresh the chart to reflect changes
+        }
+
+        function calculateSemesterAdmissionCount() {
+            const semesterMonths = parseInt(localStorage.getItem('semesterMonths') || 6); // Get from localStorage or default to 6
+            const monthlyCounts = calculateMonthlyAdmissionCounts(); // Get monthly counts array
+            let semesterCount = 0;
+            const currentMonth = new Date().getMonth(); // Current month index (0-11)
+
+            for (let i = 0; i < semesterMonths; i++) {
+                // Calculate month index to retrieve data from (wrap around if needed)
+                let monthIndex = currentMonth - i;
+                if (monthIndex < 0) {
+                    monthIndex = 12 + monthIndex; // Wrap around to previous year's months
+                }
+                semesterCount += monthlyCounts[monthIndex]; // Sum up counts for the semester months
+            }
+            return semesterCount;
+        }
+
+
+        // Load and display medication stock when dashboard loads
+        displayMedicationStock();
+        displayAdmissionCounts(); // Call this function when dashboard loads
+        updateAdmissionChart(); // Call this function to update the chart with monthly data
+
+        // --- END OF ADDED CODE for displaying medication data and admission counts and chart---
+
+    </script>
+    <script src="java.scripts/logout.js" type="module"></script>
+</body>
+</html>

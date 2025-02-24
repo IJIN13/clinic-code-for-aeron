@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+  emailjs.init({
+    publicKey: "eVD2ySQLrruxVJQ9E",
+  });
+})();
+</script>
+   
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="css/signup.css">
+       
+        
+</head>
+<body>
+    <div class="signup-container">
+        <div class="left">
+            <img src="images/background image for login page copy.jpg" alt="Background" class="background-image">
+            <img src="images/Fatima Logo.png" alt="Logo" class="logo">
+            <h1>WE DON’T JUST SCHOOL OUR LEARNERS<br>WE EDUCATE THEM.<br>FATIMIAN APPLY VALUES</h1>
+        </div>
+        <div class="right">
+            <h2>Sign Up</h2>
+          
+            <form>
+             
+                <input type="email" id="email"  placeholder="Email" required>
+                <input type="password" id="password"  placeholder="Password" required>
+               <button  class="signup-btn" id="signup">Continue</button>
+            </form>
+            <div class="login">
+                Already have an Account? <a href="loginpage.html">Log in</a>
+            </div>
+        </div>
+    </div>
+   
+    <script src="java.scripts/register.js" type="module"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</body>
+</html>

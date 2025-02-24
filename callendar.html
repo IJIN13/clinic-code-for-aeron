@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... your existing head content ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link rel="stylesheet" href="css/Callendar.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2 class="school-name">SHS MABIGA</h2>
+            <img src="images/Fatima Logo.png" alt="Logo">
+        </div>
+        <div class="menu">
+            <a href="dashboarhome.html"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="RECORDS.HTML"><i class="fas fa-folder"></i> <span>Records</span></a>
+            <a href="callendar.html" id="calendarTab"><i class="fas fa-calendar"></i> <span>Calendar</span></a>
+            <a href="Medicationpage.html"><i class="fas fa-pills"></i> <span>Medications</span></a>
+            <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a>
+            <!-- Dark Mode Button -->
+            <div class="dark-mode-toggle" id="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </div>
+            <div class="credits">
+                <a href="creditspage.html"><i class="fas fa-copyright"></i> <span>Credits</span></a>
+            </div>
+        </div>
+        <div class="logout">
+            <a href="loginpage.html"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
+        </div>
+        <div class="collapse-btn" id="collapse-btn"><i class="fas fa-bars"></i></div>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer">
+        <h2 id="calendarTitle">Calendar</h2>
+
+
+        <div id="calendarView">
+            <div class="calendar-header">
+                <div class="month-container">
+                    <button class="nav-button" id="prev-month">◀</button>
+                    <div class="month-year">
+                        <span class="month">FEBRUARY</span>
+                        <span class="year">2025</span>
+                    </div>
+                    <button class="nav-button" id="next-month">▶</button>
+                </div>
+                <div class="time-box" id="calendarTimeBox">  <!-- Clock moved here -->
+                    <span id="current-calendar-time">10:00:25</span>
+                </div>
+            </div>
+            <div class="calendar" id="calendar-grid">
+                <!-- Calendar grid will be dynamically populated here -->
+            </div>
+        </div>
+
+        <div id="dailyAdmissionView" class="table-container">
+            <h2 class="medication-list-title">
+                <button class="back-to-calendar" id="backToCalendarBtn"><i class="fas fa-arrow-left"></i> Calendar</button>
+                <span id="dailyAdmissionTitleDate">Daily Admission Records for [Date]</span>
+                <div class="clock" id="dailyAdmissionClock"></div>
+            </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Section</th>
+                        <th>Student Name</th>
+                        <th>Time - In</th>
+                        <th>Purpose of Visit</th>
+                        <th>Time - Out</th>
+                         <th>Medication</th>
+                        <th>Actions</th> <!-- Re-added Actions column header -->
+                    </tr>
+                </thead>
+                <tbody id="dailyAdmissionTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <script src="java.scripts/callendar.js" type="module">
+       
+    </script>
+
+</body>
+</html>

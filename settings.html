@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Records Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link rel="stylesheet" href="css/settings.css">
+
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <div class="logo">
+        <h2 class="school-name">SHS MABIGA</h2>
+        <img src="images/Fatima Logo.png" alt="Logo">
+    </div>
+    <div class="menu">
+        <a href="dashboarhome.html"><i class="fas fa-home"></i> <span>Home</span></a>
+        <a href="RECORDS.HTML"><i class="fas fa-folder"></i> <span>Records</span></a>
+        <a href="callendar.html"><i class="fas fa-calendar"></i> <span>Calendar</span></a>
+        <a href="Medicationpage.html"><i class="fas fa-pills"></i> <span>Medications</span></a>
+        <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a>
+
+        <!-- Dark Mode Button moved here -->
+        <div class="dark-mode-toggle" id="dark-mode-toggle">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+        </div>
+         <!-- Credits Button moved below Dark Mode Button -->
+        <div class="credits">
+            <a href="creditspage.html"> <i class="fas fa-copyright"></i> <span>Credits</span></a>
+        </div>
+    </div>
+
+
+    <div class="logout">
+        <a href="loginpage.html"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
+    </div>
+
+    <div class="collapse-btn" id="collapse-btn"><i class="fas fa-bars"></i></div>
+</div>
+
+    <div class="dashboard-container">
+        <div class="profile-settings">
+            <h2>Profile Settings</h2>
+
+            <div class="section">
+                <h3>Account Settings</h3>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+
+            <!-- New Month Selector Section -->
+            <div class="section">
+                <h3>Semester Length</h3>
+                <label for="semesterMonths">Number of Months in Semester</label>
+                <div class="month-selector">
+                    <button id="prevMonth" aria-label="Previous Month"><i class="fas fa-chevron-left"></i></button>
+                    <span id="selectedMonths">6</span> <span class="month-label">Months</span>
+                    <button id="nextMonth" aria-label="Next Month"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- **New Delete Data Section** -->
+            <div class="section">
+                <h3>Data Management for Records</h3>
+                <p>Warning: Deleting data is irreversible and will remove all student records and information.</p>
+                <button id="deleteAllDataButton" type="button">Delete All Data</button>
+            </div>
+
+
+            <button type="submit" id="saveChanges">Save Changes</button>
+        </div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const collapseBtn = document.getElementById("collapse-btn");
+
+        collapseBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+            if (sidebar.classList.contains("collapsed")) {
+                document.querySelector(".dashboard-container").style.marginLeft = "80px";
+                document.querySelector(".dashboard-container").style.width = "calc(100% - 80px)";
+            } else {
+                document.querySelector(".dashboard-container").style.marginLeft = "250px";
+                document.querySelector(".dashboard-container").style.width = "calc(100% - 250px)";
+            }
+        });
+
+        // Dark Mode Toggle (Keep Dark Mode Toggle Javascript as is)
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            darkModeToggle.querySelector('i').className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+            darkModeToggle.querySelector('span').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+        });
+
+
+        // Semester Month Selector Logic
+        const selectedMonthsSpan = document.getElementById('selectedMonths');
+        const prevMonthButton = document.getElementById('prevMonth');
+        const nextMonthButton = document.getElementById('nextMonth');
+        let currentMonths = parseInt(localStorage.getItem('semesterMonths') || 6); // Load from localStorage or default to 6
+
+        function updateMonthDisplay() {
+            selectedMonthsSpan.textContent = currentMonths;
+        }
+
+        updateMonthDisplay(); // Initialize display
+
+        prevMonthButton.addEventListener('click', () => {
+            currentMonths = Math.max(1, currentMonths - 1); // Ensure min is 1 month
+            updateMonthDisplay();
+        });
+
+        nextMonthButton.addEventListener('click', () => {
+            currentMonths = Math.min(12, currentMonths + 1); // Ensure max is 12 months
+            updateMonthDisplay();
+        });
+
+
+        // Save settings to localStorage on button click
+        document.getElementById('saveChanges').addEventListener('click', function() {
+            // Save email and password settings (if needed, implementation for these is not provided in this step as per requirement)
+            // ... save email/password logic if needed ...
+
+            // Save selected semester months to localStorage
+            localStorage.setItem('semesterMonths', currentMonths.toString());
+
+            alert('Settings saved!'); // User feedback
+        });
+
+        // **Delete All Data Functionality**
+        document.getElementById('deleteAllDataButton').addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete all student records and information? This action cannot be undone.')) {
+                let keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('studentData-GRADE')) { // Identify keys for student data
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => localStorage.removeItem(key)); // Remove identified keys
+                alert('All student records and information have been deleted.');
+            }
+        });
+
+
+    </script>
+</body>
+</html>

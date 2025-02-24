@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>settings</title>
+    <link rel="stylesheet" href="css/clinic code.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <!-- Background Image -->
+            <img src="images/background image for login page copy.jpg" alt="Background" class="background-image">
+            <!-- Logo -->
+            <img src="images/Fatima Logo.png" alt="Logo" class="logo">
+            <h1>WE DON’T JUST SCHOOL OUR LEARNERS<br>WE EDUCATE THEM.<br>FATIMIAN APPLY VALUES</h1>
+        </div>
+        <div class="right">
+            <h2>Clinic Code</h2>
+            <div class="dark-mode-toggle" id="dark-mode-toggle"></div>
+            <form id="login-form">
+                <div class="info">Enter the code given to the Clinic doctor and School Heads to Login</div>
+                <input type="text" id="code-input" placeholder="Enter Code" required>
+                <button type="submit">Login</button>
+            </form>
+            <p class="error-message" id="error-message">Invalid code. Try again.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+            const codeInput = document.getElementById("code-input");
+            const errorMessage = document.getElementById("error-message");
+            const form = document.getElementById("login-form");
+
+            // Dark Mode Preference
+            if (localStorage.getItem("dark-mode") === "enabled") {
+                body.classList.add("dark-mode");
+            }
+
+            toggle.addEventListener("click", function() {
+                body.classList.toggle("dark-mode");
+                if (body.classList.contains("dark-mode")) {
+                    localStorage.setItem("dark-mode", "enabled");
+                } else {
+                    localStorage.removeItem("dark-mode");
+                }
+            });
+
+            // Ensure code input is cleared on page load
+            codeInput.value = "";
+
+            // Login Form Functionality
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const enteredCode = codeInput.value.trim();
+
+                if (enteredCode === "123") {
+                    // Redirect to the dashboard page
+                    window.location.href = "dashboarhome.html";
+                } else {
+                    // Show error message and clear input
+                    errorMessage.style.display = "block";
+                    codeInput.value = "";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

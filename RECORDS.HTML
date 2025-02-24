@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Records</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Combined CSS (Keep Sidebar and Table Styles, Add Styles for Button Groups and Navigation Buttons) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background: #e0e0e0;
+        }
+
+        /* Sidebar styling (Keep as is) */
+        .sidebar {
+            width: 250px;
+            background-color: #1f2d3d;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar .logo .school-name {
+            border-bottom: 2px solid white;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed .school-name {
+            display: none;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logo img {
+            width: 100px;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo img {
+            width: 50px;
+        }
+
+        .sidebar .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar .menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 5px;
+            transition: padding 0.3s ease;
+        }
+
+        .sidebar .menu a i {
+            font-size: 18px;
+        }
+
+        .sidebar.collapsed .menu a {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sidebar.collapsed .menu a span {
+            display: none;
+        }
+
+        .sidebar .menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logout {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .sidebar .logout a {
+            color: white;
+            background: #fff;
+            color: #1f2d3d;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar.collapsed .logout a {
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .logout a span {
+            display: none;
+        }
+
+        .collapse-btn {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1f2d3d;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .collapse-btn {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+           /* Dashboard container - Modified for Flex */
+              /* Dashboard container - Modified for Flex */
+        .dashboard-container {
+            flex-grow: 1; /* Let it take remaining space */
+            padding: 20px;
+            margin-left: 250px; /* Default margin when sidebar is expanded */
+            transition: margin-left 0.3s ease; /* Transition for margin change */
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Dashboard Container when Sidebar is Collapsed */
+        .dashboard-container.sidebar-collapsed {
+            margin-left: 80px; /* Collapsed sidebar margin */
+        }
+
+
+        .dashboard-container h2 {
+            margin-bottom: 15px;
+            align-self: flex-start;
+            position: relative; /* To contain absolute positioned button */
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+             overflow-x: auto; /* Horizontal scroll if table wider */
+             display: flex; /* Enable flexbox for the table container */
+             display: none; /* Initially Hidden */
+             position: relative; /* For positioning back to selection button - KEEP THIS FOR EXCEL BUTTON */
+        }
+
+        table {
+            width: 100%; /* Take full width of container now using flex on table-container */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            word-wrap: break-word; /* Allow long words to break */
+        }
+
+        /* Modified column styles (Keep as is) - NO CHANGES IN CSS */
+        th {
+            background-color: #3d4a61;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            flex-basis: 30px;
+            text-align: left;
+            background-color: #f0f0f0;
+        }
+
+        th[colspan="4"] {
+            background-color: #1f2d3d;
+            color: white;
+            text-align: left;
+            padding: 15px;
+             font-size: 1.2em;
+        }
+
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            flex-basis: 75%;
+            flex-grow: 1;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3),
+        th:nth-child(4),
+        td:nth-child(4) {
+            flex-basis: 12.5%;
+            text-align: center;
+        }
+
+
+        /* Dark mode styles (Keep as is) - NO CHANGES IN CSS */
+        body.dark-mode {
+            background: #2d2d2d;
+            color: #ffffff;
+        }
+
+        .dark-mode .table-container {
+            background: #333;
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-mode th {
+            background: #444;
+        }
+
+        .dark-mode td {
+            background: #555;
+            color: white;
+        }
+        .dark-mode th:nth-child(1),
+        .dark-mode td:nth-child(1) {
+            background-color: #666;
+            color: #ddd;
+        }
+
+
+        /* Dark mode button styling (Keep as is) - NO CHANGES IN CSS */
+        .dark-mode-toggle {
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-top: auto;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar.collapsed .dark-mode-toggle {
+            margin-left: 0;
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .dark-mode-toggle span {
+            display: none;
+        }
+
+        /* Credits Section (Keep as is) */
+        .sidebar .credits {
+            margin-top: auto;
+            margin-bottom: 15px;
+        }
+
+        .sidebar .credits a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            gap: 10px;
+        }
+
+        .sidebar .credits a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.collapsed .credits {
+            margin-bottom: 20px;
+        }
+
+        .sidebar.collapsed .credits a {
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sidebar.collapsed .credits a span {
+            display: none;
+        }
+
+        .sidebar.collapsed .credits a i {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* Excel Button Style - NO CHANGES IN CSS */
+        .excel-button {
+            background: none;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 0;
+            margin: 0;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .excel-button:hover {
+            opacity: 1;
+        }
+
+        .button-group { /* General styling for button groups */
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center; /* Center buttons */
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+
+        .navigation-button { /* Style for navigation buttons (grade, strand, section) */
+            background-color: #1f2d3d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+             min-width: 120px; /* Example min-width, adjust as needed */
+             text-align: center;
+        }
+
+        .navigation-button:hover {
+            background-color: #3d4a61;
+        }
+
+        /* ADD THIS CSS FOR CLICKABLE NAMES AND HIDE STUDENT INFO INITIALLY */
+        td.student-name a {
+            display: block; /* Make the whole cell clickable */
+            text-decoration: none;
+            color: #007bff; /* Link color - you can change this */
+            padding: 12px 15px; /* Match padding of table cells */
+        }
+
+        td.student-name a:hover {
+            text-decoration: underline;
+            color: #0056b3; /* Hover link color - you can change this */
+        }
+
+        #studentInfoDisplay {
+            display: none; /* Initially hide the student info section */
+        }
+
+         /* Student Info and Medical Container Styling FROM STUDENT INFORMATION PAGE */
+        .student-info-container, .medical-container { /* General container for the cards */
+            background-color: #d9e2ef; /* Light blue background */
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .student-info-container h3, .medical-container h3 {
+            color: #1f2d3d; /* Dark sidebar color for titles */
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+
+        .student-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .student-form input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .medical-history-medication-boxes {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .medical-history-box, .medication-box {
+            background-color: #d9e2ef; /* Same light blue as main container */
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Style for textarea  FROM STUDENT INFORMATION PAGE */
+        .medical-history-box textarea, .medication-box textarea {
+            width: calc(100% - 20px);
+            min-height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+
+        /* Back to selection button style - MODIFIED FOR TOP RIGHT ALIGNMENT */
+        .back-to-selection-button {
+            position: absolute;
+            top: 10px; /* Align with the top of the h2, adjust as needed */
+            right: 20px; /* Align to the right, with some padding */
+            background-color: #1f2d3d;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            /* margin-top: 10px; Remove margin top as we are positioning it now */
+            transform: translateY(0%); /* Adjust vertical alignment if needed, remove vertical centering */
+        }
+
+        .back-to-selection-button:hover {
+            background-color: #3d4a61;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar (Keep as is) -->
+    <div class="sidebar" id="sidebar">
+       <div class="logo">
+            <h2 class="school-name">SHS MABIGA</h2>
+            <img src="images/Fatima Logo.png" alt="Logo">
+        </div>
+        <div class="menu">
+            <a href="dashboarhome.html"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="RECORDS.HTML"><i class="fas fa-folder"></i> <span>Records</span></a>
+            <a href="callendar.html"><i class="fas fa-calendar"></i> <span>Calendar</span></a>
+            <a href="Medicationpage.html"><i class="fas fa-pills"></i> <span>Medications</span></a>
+            <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a>
+            <!-- Dark Mode Button -->
+            <div class="dark-mode-toggle" id="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </div>
+            <div class="credits">
+                <a href="creditspage.html"><i class="fas fa-copyright"></i> <span>Credits</span></a>
+            </div>
+        </div>
+        <div class="logout">
+            <a href="loginpage.html"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
+        </div>
+        <div class="collapse-btn" id="collapse-btn"><i class="fas fa-bars"></i></div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container"  id="dashboardContainer">
+        <h2>Clinic Records</h2>
+        <button class="back-to-selection-button" id="backToSelectionButton"><i class="fas fa-arrow-left"></i> Back to Selection</button>
+
+
+        <!-- EMBEDDED STUDENT INFORMATION SECTION - HIDDEN INITIALLY -->
+        <div class="student-info-container" id="studentInfoDisplay">
+            <h3>STUDENT INFORMATION</h3>
+            <button class="back-to-list-button" id="backToListButton" style="margin-bottom: 10px;"><i class="fas fa-arrow-left"></i> Back to Student List</button>
+            <button id="addStudentButton">Add Student</button>
+
+
+            <form class="student-form" id="addStudentForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address">
+
+                <label for="birthdate">Birthdate:</label>
+                <input type="text" id="birthdate" name="birthdate">
+
+                <label for="citizenship">Citizenship:</label>
+                <input type="text" id="citizenship" name="citizenship">
+
+                <label for="fatherName">Father's Name:</label>
+                <input type="text" id="fatherName" name="fatherName">
+
+                <label for="motherName">Mother's Name:</label>
+                <input type="text" id="motherName" name="motherName">
+
+                <label for="contactEmergency">Contact Person in case of emergency:</label>
+                <input type="text" id="contactEmergency" name="contactEmergency">
+
+                <label for="strandSection">Strand and Section:</label>
+                <input type="text" id="strandSection" name="strandSection">
+
+                <label for="age">Age:</label>
+                <input type="text" id="age" name="age">
+
+                <label for="sex">Sex:</label>
+                <input type="text" id="sex" name="sex">
+
+                <label for="contactNo">Contact No.:</label>
+                <input type="text" id="contactNo" name="contactNo">
+
+                <label for="religion">Religion:</label>
+                <input type="text" id="religion" name="religion">
+
+                <label for="adviser">Adviser:</label>
+                <input type="text" id="adviser" name="adviser">
+
+                <label for="bmi">BMI:</label>
+                <input type="text" id="bmi" name="bmi">
+
+                <!-- Medical History and Medication Boxes moved inside the form -->
+                <div class="medical-history-medication-boxes-student-info">
+                    <!-- Medical History Box with Textarea -->
+                    <div class="medical-history-box">
+                        <h3>MEDICAL HISTORY</h3>
+                        <textarea id="medicalHistory" name="medicalHistory" placeholder="Enter medical history details here..."></textarea>
+                    </div>
+                    <!-- Medication Box with Textarea -->
+                    <div class="medication-box">
+                        <h3>MEDICATION</h3>
+                        <textarea id="medication" name="medication" placeholder="Enter medication details here..."></textarea>
+                    </div>
+                </div>
+                <!-- End of Medical History and Medication Boxes -->
+
+            </form>
+        </div>
+
+
+        <div id="gradeLevelButtons" class="button-group"> <!-- Grade Level Buttons -->
+            <button class="navigation-button" data-grade="11">Grade 11 Records</button>
+            <button class="navigation-button" data-grade="12">Grade 12 Records</button>
+        </div>
+
+        <div id="strandButtons" class="button-group" style="display: none;"> <!-- Strand Buttons (initially hidden) -->
+            <!-- Strand buttons will be populated here by JavaScript -->
+        </div>
+
+        <div id="sectionButtons" class="button-group" style="display: none;"> <!-- Section Buttons (initially hidden) -->
+             <!-- Section buttons will be populated here by JavaScript -->
+        </div>
+
+        <div class="table-container" id="recordTableContainer">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="4" style="text-align:center; font-size: 1.2em; padding-bottom: 10px; text-align: left; background-color: #1f2d3d;">
+                            <span id="headerGradeStrandSection"></span> <!-- Dynamic Header -->
+                            <!-- Excel Button (Keep as is) -->
+                            <button onclick="copyToExcel()" class="excel-button" title="Copy to Excel">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>Name of student</th>
+                        <th>OFF CAMPUS</th>
+                        <th>CLINIC VISITS</th>
+                    </tr>
+                </thead>
+                <tbody id="recordTableBody">
+                    <!-- Rows will be added here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="java.scripts/records.js" type="module">
+       
+
+
+       
+    </script>
+</body>
+</html>

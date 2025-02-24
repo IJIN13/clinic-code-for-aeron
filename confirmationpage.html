@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+  emailjs.init({
+    publicKey: "eVD2ySQLrruxVJQ9E",
+  });
+})();
+</script>
+    
+    <title>Confirmation Email Page</title>
+    
+       <link rel="stylesheet" href="css/confirmation.css">
+</head>
+<body>
+    <div class="confirmation-container">
+        <div class="left">
+            <img src="images/background image for login page copy.jpg" alt="Background" class="background-image">
+            <img src="images/Fatima Logo.png" alt="Logo" class="logo">
+            <h1>WE DON’T JUST SCHOOL OUR LEARNERS<br>WE EDUCATE THEM.<br>FATIMIAN APPLY VALUES</h1>
+        </div>
+        <div class="right">
+            <h2>Confirm Your Account</h2>
+            <div class="dark-mode-toggle" id="dark-mode-toggle"></div>
+            <form>
+                <div class="info">We sent a 6-digit code to your Email</div>
+                <input type="text" placeholder="Enter Code" id="code" required>
+
+                <button type="button" class="continue-btn" id="continue">Continue</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="java.scripts/confirmation.js" type="module">
+        
+     
+    </script>
+ 
+     <script src="https://smtpjs.com/v3/smtp.js"></script>
+</body>
+</html>
